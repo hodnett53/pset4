@@ -1,0 +1,31 @@
+0.  JPG: 16.7 million colors
+    GIF: 256 colors
+    BMP: 1bit: monochromatic
+         8bit: 256 colors
+         24bit: 16.8 mil colors
+    PNG: 16.8 mil colors plus alpha chan
+    
+1.  GIF supports animation
+
+2.  Lossless: reduce file size while preserving a
+    perfect copy of the uncompressed image
+    Lossy: trades image quality for file size.
+    doesn't keep perfect copy of orig 
+
+3.  JPEG uses lossy compression
+
+4.  TODO
+5.  TODO
+6.  TODO
+7.  TODO
+8.  TODO
+9.  TODO
+10. TODO
+11. TODO
+12. TODO
+13. TODO
+14. TODO
+15. TODO
+16. TODO
+17. TODO
+18. TODO
