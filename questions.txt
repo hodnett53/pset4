@@ -4,18 +4,24 @@
          8bit: 256 colors
          24bit: 16.8 mil colors
     PNG: 16.8 mil colors plus alpha chan
-    
+
 1.  GIF supports animation
 
 2.  Lossless: reduce file size while preserving a
     perfect copy of the uncompressed image
     Lossy: trades image quality for file size.
-    doesn't keep perfect copy of orig 
+    doesn't keep perfect copy of orig
 
 3.  JPEG uses lossy compression
 
-4.  TODO
-5.  TODO
+4.  The system changes the first char in the directory
+    entry to signal that the file's deleted. Then the FAT
+    clusters are moved to the list of free clusters.
+
+5.  The best thing is to rewrite all the empty space on
+    the disk so that no old data is there. It is not
+    completely effective, but is close for most consumers.
+
 6.  TODO
 7.  TODO
 8.  TODO
