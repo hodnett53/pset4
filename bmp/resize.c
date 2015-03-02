@@ -1,5 +1,5 @@
 /**
- * copy.c
+ * resize.c
  *
  * Computer Science 50
  * Problem Set 4
@@ -15,15 +15,22 @@
 int main(int argc, char* argv[])
 {
     // ensure proper usage
-    if (argc != 3)
+    if (argc != 4)
     {
-        printf("Usage: ./copy infile outfile\n");
+        printf("Usage: ./resize n infile outfile\n");
         return 1;
     }
 
     // remember filenames
-    char* infile = argv[1];
-    char* outfile = argv[2];
+    int n = argv[1];
+    char* infile = argv[2];
+    char* outfile = argv[3];
+    
+    if (n < 1)
+    {
+        printf("Usage: n >= 1\n");
+        return 1;
+    }
 
     // open input file 
     FILE* inptr = fopen(infile, "r");
@@ -61,6 +68,7 @@ int main(int argc, char* argv[])
     }
 
     // write outfile's BITMAPFILEHEADER
+    bf = 
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
