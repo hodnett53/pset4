@@ -1,10 +1,11 @@
 /**
  * resize.c
  *
- * Computer Science 50
+ * Luke Hodnett
+ * CS50x
  * Problem Set 4
  *
- * Copies a BMP piece by piece, just because.
+ * Resizes a bmp image to the size given in the CLA
  */
        
 #include <stdio.h>
@@ -66,6 +67,8 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Unsupported file format.\n");
         return 4;
     }
+    
+    // TODO Change headers to match the resize
 
     // write outfile's BITMAPFILEHEADER
     bf = 
@@ -77,6 +80,7 @@ int main(int argc, char* argv[])
     // determine padding for scanlines
     int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
+    // TODO
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
     {
@@ -90,6 +94,7 @@ int main(int argc, char* argv[])
             fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
 
             // write RGB triple to outfile
+            // TODO write sizeof to be the new resize amount
             fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
         }
 
