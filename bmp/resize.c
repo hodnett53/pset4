@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     }
 
     // remember filenames
-    int n = argv[1];
+    int n = atoi(argv[1]);
     char* infile = argv[2];
     char* outfile = argv[3];
     
