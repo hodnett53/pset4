@@ -73,13 +73,13 @@ int main(int argc, char* argv[])
     long newHeight = bi.biHeight * n;
     
     // write outfile's BITMAPFILEHEADER
-    bf.bfSize = 54 + newWidth * newHeight * 3; 
+    bf.bfSize = 54 + newWidth * newHeight * sizeof(RGBTRIPLE); 
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
     bi.biWidth = newWidth;
     bi.biHeight = newHeight;
-    bi.biSizeImage = newWidth * newHeight * 3;
+    bi.biSizeImage = newWidth * newHeight * sizeof(RGBTRIPLE);
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
     // determine padding for scanlines
