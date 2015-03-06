@@ -68,13 +68,18 @@ int main(int argc, char* argv[])
         return 4;
     }
     
-    // TODO Change headers to match the resize
-
+    // Change headers to match the resize
+    long newWidth = bi.biWidth * n;
+    long newHeight = bi.biHeight * n;
+    
     // write outfile's BITMAPFILEHEADER
-    bf = 
+    bf.bfSize = 54 + newWidth * newHeight * 3; 
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
+    bi.biWidth = newWidth;
+    bi.biHeight = newHeight;
+    bi.biSizeImage = newWidth * newHeight * 3;
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
     // determine padding for scanlines
