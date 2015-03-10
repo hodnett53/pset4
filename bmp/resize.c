@@ -27,9 +27,10 @@ int main(int argc, char* argv[])
     char* infile = argv[2];
     char* outfile = argv[3];
     
-    if (n < 1)
+    // n error checking
+    if (n < 1 || n > 100)
     {
-        printf("Usage: n >= 1\n");
+        printf("Usage: n = [1, 100]\n");
         return 1;
     }
 
