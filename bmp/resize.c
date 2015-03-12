@@ -86,14 +86,19 @@ int main(int argc, char* argv[])
     // determine padding for scanlines
     int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
-    // TODO
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
     {
-        for(int...)
+        for(int j = 0; j < n; j++)
         {
+            // initiate linestart variable
+            fpos_t linestart;
+            
+            // store position of line start
+            fgetpos(inptr, &linestart);
+            
             // iterate over pixels in scanline
-            for (int j = 0; j < bi.biWidth; j++)
+            for (int k = 0; k < bi.biWidth; k++)
             {
                 // temporary storage
                 RGBTRIPLE triple;
@@ -102,7 +107,7 @@ int main(int argc, char* argv[])
                 fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
 
                 // loop to resize the image horizontally
-                for (int k = 0; k < n; k++)
+                for (int l = 0; l < n; l++)
                 {
                     // write RGB triple to outfile
                     fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
@@ -113,15 +118,15 @@ int main(int argc, char* argv[])
             fseek(inptr, padding, SEEK_CUR);
 
             // then add it back (to demonstrate how)
-            for (int k = 0; k < padding; k++)
+            for (int m = 0; m < padding; m++)
             {
                 fputc(0x00, outptr);
             }
             
             // mover cursor back to beginning of line if repeating vertically
-            if (//TODO < n)
+            if (j < n - 1)
             {
-                fseek();
+                fsetpos(inptr, &linestart);
             }
         }
     }
