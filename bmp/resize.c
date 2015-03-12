@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
     int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     
     // store the length of the line
-    long int offset = bi.biWidth * sizeof(RGBTRIPLE) + padding;
+    long offset = bi.biWidth * sizeof(RGBTRIPLE) + padding;
     
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
@@ -133,6 +133,9 @@ int main(int argc, char* argv[])
 
     // close outfile
     fclose(outptr);
+
+    // print confirmation message
+    printf("Resize complete\n");
 
     // that's all folks
     return 0;
