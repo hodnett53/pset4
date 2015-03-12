@@ -89,14 +89,14 @@ int main(int argc, char* argv[])
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
     {
+        // initiate linestart variable
+        fpos_t linestart;
+        
+        // store position of line start
+        fgetpos(inptr, &linestart);
+        
         for(int j = 0; j < n; j++)
-        {
-            // initiate linestart variable
-            fpos_t linestart;
-            
-            // store position of line start
-            fgetpos(inptr, &linestart);
-            
+        {              
             // iterate over pixels in scanline
             for (int k = 0; k < bi.biWidth; k++)
             {
@@ -136,6 +136,9 @@ int main(int argc, char* argv[])
 
     // close outfile
     fclose(outptr);
+
+    // print confirmation message
+    printf("Resize complete\n");
 
     // that's all folks
     return 0;
