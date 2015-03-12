@@ -72,6 +72,9 @@ int main(int argc, char* argv[])
     // determine padding for scanlines
     int oldPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     
+    //TODO
+    long oldWidth = bi.biWidth;
+    
     // Change headers to match the resize
     long newWidth = bi.biWidth * n;
     long newHeight = bi.biHeight * n;
@@ -90,7 +93,7 @@ int main(int argc, char* argv[])
     int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     
     // store the length of the line
-    long offset = bi.biWidth * sizeof(RGBTRIPLE) + padding;
+    long offset = oldWidth * sizeof(RGBTRIPLE) + oldPadding;
     
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
@@ -98,7 +101,7 @@ int main(int argc, char* argv[])
         for(int j = 0; j < n; j++)
         {          
             // iterate over pixels in scanline
-            for (int k = 0; k < bi.biWidth; k++)
+            for (int k = 0; k < oldWidth; k++)
             {
                 // temporary storage
                 RGBTRIPLE triple;
