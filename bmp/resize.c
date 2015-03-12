@@ -69,6 +69,9 @@ int main(int argc, char* argv[])
         return 4;
     }
     
+    // determine padding for scanlines
+    int oldPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    
     // Change headers to match the resize
     long newWidth = bi.biWidth * n;
     long newHeight = bi.biHeight * n;
@@ -82,7 +85,7 @@ int main(int argc, char* argv[])
     bi.biHeight = newHeight;
     bi.biSizeImage = newWidth * newHeight * sizeof(RGBTRIPLE);
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
-
+    
     // determine padding for scanlines
     int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     
@@ -111,10 +114,10 @@ int main(int argc, char* argv[])
                 }
             }
 
-            // skip over padding, if any
-            fseek(inptr, padding, SEEK_CUR);
+            // skip over old padding, if any
+            fseek(inptr, oldPadding, SEEK_CUR);
 
-            // then add it back (to demonstrate how)
+            // then add new padding
             for (int m = 0; m < padding; m++)
             {
                 fputc(0x00, outptr);
