@@ -85,18 +85,15 @@ int main(int argc, char* argv[])
 
     // determine padding for scanlines
     int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-
+    
+    // store the length of the line
+    long int offset = bi.biWidth * sizeof(RGBTRIPLE) + padding;
+    
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
     {
         for(int j = 0; j < n; j++)
-        {
-            // initiate linestart variable
-            fpos_t linestart;
-            
-            // store position of line start
-            fgetpos(inptr, &linestart);
-            
+        {          
             // iterate over pixels in scanline
             for (int k = 0; k < bi.biWidth; k++)
             {
@@ -126,7 +123,7 @@ int main(int argc, char* argv[])
             // mover cursor back to beginning of line if repeating vertically
             if (j < n - 1)
             {
-                fsetpos(inptr, &linestart);
+                fseek(inptr, offset, SEEK_CUR);
             }
         }
     }
