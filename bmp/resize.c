@@ -139,9 +139,6 @@ int main(int argc, char* argv[])
     // close outfile
     fclose(outptr);
 
-    // print confirmation message
-    printf("Resize complete!\n");
-
     // that's all folks
     return 0;
 }
