@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
     // determine padding for scanlines
     int oldPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     
-    //TODO
+    // store original width
     long oldWidth = bi.biWidth;
     
     // Change headers to match the resize
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
             // mover cursor back to beginning of line if repeating vertically
             if (j < n - 1)
             {
-                fseek(inptr, offset, SEEK_CUR);
+                fseek(inptr, -offset, SEEK_CUR);
             }
         }
     }
@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
     fclose(outptr);
 
     // print confirmation message
-    printf("Resize complete\n");
+    printf("Resize complete!\n");
 
     // that's all folks
     return 0;
