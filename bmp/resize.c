@@ -71,25 +71,25 @@ int main(int argc, char* argv[])
     // determine padding for scanlines
     int oldPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
-    // store original width
-    long oldWidth = bi.biWidth;
-
     // Change headers to match the resize
     long newWidth = bi.biWidth * n;
     long newHeight = bi.biHeight * n;
+    
+    // determine padding for scanlines
+    int padding =  (4 - (newWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    
+    // store original width
+    long oldWidth = bi.biWidth;
 
     // write outfile's BITMAPFILEHEADER
-    bf.bfSize = 54 + newWidth * newHeight * sizeof(RGBTRIPLE);
+    bf.bfSize = 54 + newWidth * newHeight * sizeof(RGBTRIPLE) + padding * newHeight;
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
     bi.biWidth = newWidth;
     bi.biHeight = newHeight;
-    bi.biSizeImage = newWidth * newHeight * sizeof(RGBTRIPLE);
+    bi.biSizeImage = newWidth * newHeight * sizeof(RGBTRIPLE) + padding * newHeight;
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
-
-    // determine padding for scanlines
-    int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
     // store the length of the line
     long offset = oldWidth * sizeof(RGBTRIPLE) + oldPadding;
