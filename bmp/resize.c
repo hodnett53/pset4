@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    // remember filenames
+    // store CLA's
     int n = atoi(argv[1]);
     char* infile = argv[2];
     char* outfile = argv[3];
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     if (n < 1 || n > 100)
     {
         printf("Usage: n = [1, 100]\n");
-        return 1;
+        return 2;
     }
 
     // open input file
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
     if (inptr == NULL)
     {
         printf("Could not open %s.\n", infile);
-        return 2;
+        return 3;
     }
 
     // open output file
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     {
         fclose(inptr);
         fprintf(stderr, "Could not create %s.\n", outfile);
-        return 3;
+        return 4;
     }
 
     // read infile's BITMAPFILEHEADER
@@ -65,30 +65,30 @@ int main(int argc, char* argv[])
         fclose(outptr);
         fclose(inptr);
         fprintf(stderr, "Unsupported file format.\n");
-        return 4;
+        return 5;
     }
 
-    // determine padding for scanlines
+    // determine padding of infile
     int oldPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
-    // Change headers to match the resize
+    // store new width and height after the resize
     long newWidth = bi.biWidth * n;
     long newHeight = bi.biHeight * n;
     
-    // determine padding for scanlines
-    int padding =  (4 - (newWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-    
     // store original width
     long oldWidth = bi.biWidth;
+    
+    // determine padding for outfile
+    int padding = (4 - (newWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
     // write outfile's BITMAPFILEHEADER
-    bf.bfSize = 54 + newWidth * newHeight * sizeof(RGBTRIPLE) + padding * newHeight;
+    bf.bfSize = 54 + newWidth * abs(newHeight) * sizeof(RGBTRIPLE) + padding * newHeight;
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
     bi.biWidth = newWidth;
     bi.biHeight = newHeight;
-    bi.biSizeImage = newWidth * newHeight * sizeof(RGBTRIPLE) + padding * newHeight;
+    bi.biSizeImage = newWidth * abs(newHeight) * sizeof(RGBTRIPLE) + padding * abs(newHeight);
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
     // store the length of the line
