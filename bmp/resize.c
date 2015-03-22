@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
     int padding = (4 - (newWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
     // write outfile's BITMAPFILEHEADER
-    bf.bfSize = 54 + newWidth * abs(newHeight) * sizeof(RGBTRIPLE) + padding * newHeight;
+    bf.bfSize = 54 + newWidth * abs(newHeight) * sizeof(RGBTRIPLE) + padding * abs(newHeight);
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
