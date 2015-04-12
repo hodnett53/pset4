@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
         printf("usage: ./recover.c\n");
         return 1;
     }
-    
+
     // open RAW file
     FILE* file = fopen("card.raw", "r");
     if (file == NULL)
@@ -27,19 +27,26 @@ int main(int argc, char* argv[])
         printf("Could not open file\n");
         return 2;
     }
-    
+
     // TODO search through file for jpg headers
+    do
+    {
         // TODO if header found
+        if(fread(//TODO))
+        {
             // open a new ###.jpg file
             // write 512 bytes
             // scan next four bytes for new header
                 // if not write 512 bytes again (maybe separate this into a separate function
                 // if YES close first file and open new ###.jpg file and start again
             // end loop once all jpgs recovered (16 total)
-    
+        }
+    }
+    while(// TODO);
+
     // close file
     fclose(file);
-    
+
     // end program
     return 0;
 }
