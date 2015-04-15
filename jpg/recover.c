@@ -28,21 +28,38 @@ int main(int argc, char* argv[])
         return 2;
     }
 
+    // TODO define vars scoped out of the do while loop
+    int imgCount = 0;
+
+    // define byte
+    typedef unsigned char BYTE;
+
+    // create array for reading 512 bytes at a time
+    BYTE read[512];
+
+    // store jpg header values
+    BYTE header0[4] = {0xff, 0xd8, 0xff, 0xe0};
+    BYTE header1[4] = {0xff, 0xd8, 0xff, 0xe1};
+
     // TODO search through file for jpg headers
     do
     {
+        // read 512 bytes into memory
+        fread(&read, sizeof(BYTE), 512, file);
+
         // TODO if header found
-        if(fread(//TODO))
+        if(read[0] == header0[1] && read[1] == header0[1] && read[2] == header0[2] && (read[3] == header0[3] || read[3] == header1[3]))
         {
-            // open a new ###.jpg file
-            // write 512 bytes
-            // scan next four bytes for new header
-                // if not write 512 bytes again (maybe separate this into a separate function
-                // if YES close first file and open new ###.jpg file and start again
-            // end loop once all jpgs recovered (16 total)
+            // write file name using imgCount e.g. 001.jpg
+            imgCount ++;
+        }
+
+        if (// TODO still a jpg but not a file header)
+        {
+          fwrite(//512 bytes to the new jpg file);
         }
     }
-    while(// TODO);
+    while(feof(file) == FALSE);
 
     // close file
     fclose(file);
