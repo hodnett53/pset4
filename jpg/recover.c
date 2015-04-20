@@ -34,6 +34,9 @@ int main(int argc, char* argv[])
     // define byte
     typedef unsigned char BYTE;
 
+    // create img file scoped outside of loop
+    FILE* jpg = NULL;
+
     // create array for reading 512 bytes at a time
     BYTE read[512];
 
@@ -44,24 +47,39 @@ int main(int argc, char* argv[])
     // TODO search through file for jpg headers
     do
     {
-        // read 512 bytes into memory
+        // read 512 bytes into memory and store in read array
         fread(&read, sizeof(BYTE), 512, file);
 
-        // TODO if header found
+        // check for header in read array
         if(read[0] == header0[1] && read[1] == header0[1] && read[2] == header0[2] && (read[3] == header0[3] || read[3] == header1[3]))
         {
-            // write file name using imgCount e.g. 001.jpg
+            // close previous jpg if not the first jpg found
+            if(jpg != NULL)
+            {
+              fclose(jpg);
+            }
+
+            // create file name from imgCount in the format asked for in specification
+            char imgName[8];
+            sprintf(imgName, "%03d.jpg", imgCount);
+
+            // open new file to jpg variable
+            jpg = fopen(imgName, "w");
+
+            // iterate counter for next file
             imgCount ++;
         }
 
-        if (// TODO still a jpg but not a file header)
+        // check to see if jpg has value and if YES write the read array to it
+        if (jpg != NULL)
         {
-          fwrite(//512 bytes to the new jpg file);
+          fwrite(&jpg, sizeof(BYTE), 512, jpg);
         }
     }
-    while(feof(file) == FALSE);
+    while(feof(file) != 0);
 
-    // close file
+    // close files
+    fclose(jpg);
     fclose(file);
 
     // end program
