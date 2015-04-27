@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
         return 2;
     }
 
-    // TODO define vars scoped out of the do while loop
+    // define vars scoped out of the do while loop
     int imgCount = 0;
 
     // define byte
@@ -44,42 +44,47 @@ int main(int argc, char* argv[])
     BYTE header0[4] = {0xff, 0xd8, 0xff, 0xe0};
     BYTE header1[4] = {0xff, 0xd8, 0xff, 0xe1};
 
-    // TODO search through file for jpg headers
+    // search through file for jpg headers
     do
     {
         // read 512 bytes into memory and store in read array
-        fread(&read, sizeof(BYTE), 512, file);
-
-        // check for header in read array
-        if(read[0] == header0[1] && read[1] == header0[1] && read[2] == header0[2] && (read[3] == header0[3] || read[3] == header1[3]))
+        if(fread(&read, sizeof(BYTE), 512, file) == 512)
         {
-            // close previous jpg if not the first jpg found
-            if(jpg != NULL)
-            {
-              fclose(jpg);
-            }
+          // check for header in read array
+          if (read[0] == header0[0] && read[1] == header0[1] && read[2] == header0[2] && (read[3] == header0[3] || read[3] == header1[3]))
+          {
+              // close previous jpg if not the first jpg found
+              if(jpg != NULL)
+              {
+                fclose(jpg);
+              }
 
-            // create file name from imgCount in the format asked for in specification
-            char imgName[8];
-            sprintf(imgName, "%03d.jpg", imgCount);
+              // create file name from imgCount in the format asked for in specification
+              char imgName[8];
+              sprintf(imgName, "%03d.jpg", imgCount);
 
-            // open new file to jpg variable
-            jpg = fopen(imgName, "w");
+              // open new file to jpg variable
+              jpg = fopen(imgName, "a");
 
-            // iterate counter for next file
-            imgCount ++;
-        }
+              // iterate counter for next file
+              imgCount ++;
+          }
 
-        // check to see if jpg has value and if YES write the read array to it
-        if (jpg != NULL)
-        {
-          fwrite(&jpg, sizeof(BYTE), 512, jpg);
+          // check to see if jpg has value and if YES write the read array to it
+          if (jpg != NULL)
+          {
+            fwrite(&read, sizeof(BYTE), 512, jpg);
+          }
         }
     }
-    while(feof(file) != 0);
+    while(!feof(file));
 
     // close files
-    fclose(jpg);
+    if (jpg != NULL)
+    {
+      fclose(jpg);
+    }
+
     fclose(file);
 
     // end program
