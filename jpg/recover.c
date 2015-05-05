@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define READ_SIZE 512
+
 
 int main(int argc, char* argv[])
 {
@@ -38,7 +40,7 @@ int main(int argc, char* argv[])
     FILE* jpg = NULL;
 
     // create array for reading 512 bytes at a time
-    BYTE read[512];
+    BYTE read[READ_SIZE];
 
     // store jpg header values
     BYTE header0[4] = {0xff, 0xd8, 0xff, 0xe0};
@@ -48,7 +50,7 @@ int main(int argc, char* argv[])
     do
     {
         // read 512 bytes into memory and store in read array
-        if(fread(&read, sizeof(BYTE), 512, file) == 512)
+        if(fread(&read, sizeof(BYTE), READ_SIZE, file) == READ_SIZE)
         {
           // check for header in read array
           if (read[0] == header0[0] && read[1] == header0[1] && read[2] == header0[2] && (read[3] == header0[3] || read[3] == header1[3]))
@@ -73,7 +75,7 @@ int main(int argc, char* argv[])
           // check to see if jpg has value and if YES write the read array to it
           if (jpg != NULL)
           {
-            fwrite(&read, sizeof(BYTE), 512, jpg);
+            fwrite(&read, sizeof(BYTE), READ_SIZE, jpg);
           }
         }
     }
