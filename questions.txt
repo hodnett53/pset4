@@ -22,10 +22,15 @@
     the disk so that no old data is there. It is not
     completely effective, but is close for most consumers.
 
-6.  TODO
-7.  TODO
-8.  TODO
-9.  TODO
+6.  stdint.h is a header file that describes sets of integer
+    types having specified widths.
+    
+7.  Using uint8_t, ect in a program allows you to specify
+    how many bits a variable uses.
+    
+8.  BYTE has 1 byte, DWORD has 4 bytes, LONG has 4 bytes, WORD has 2 bytes.
+ 
+9.  
 10. TODO
 11. TODO
 12. TODO
